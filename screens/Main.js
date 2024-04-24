@@ -5,7 +5,7 @@ import auth from '@react-native-firebase/auth';
 import React, {useState} from 'react';
 
 const Main = ({navigation}) => {
-  const [email, setEmail] = useState('amirmirza1@gmail.com');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('Test@123');
 
   const login = async () => {
@@ -17,7 +17,7 @@ const Main = ({navigation}) => {
       const uid = res?.user?.uid;
       await AsyncStorage.setItem('userId', uid);
       console.log('=====================res', res);
-      navigation.navigate('Messages');
+      navigation.navigate('Option');
     } catch (error) {
       console.log('==========errLogin', error);
     }

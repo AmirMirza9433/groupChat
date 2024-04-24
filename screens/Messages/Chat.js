@@ -1,21 +1,19 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import React, {useCallback, useState, useEffect} from 'react';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import firestore from '@react-native-firebase/firestore';
 
 import ScreenWrapper from './molecules/ScreenWrapper';
 import UserCard from './molecules/UserCard';
 import Footer from './molecules/Footer';
 
-const Chat = ({route, navigation}) => {
+const Chat = ({route}) => {
   const groupId = route.params?.id;
   const [messagesData, setMessagesData] = useState([]);
   const [message, setMessage] = useState('');
   const [userId, setUserId] = useState('');
   useEffect(() => {
     AsyncStorage.getItem('userId').then(uid => setUserId(uid));
-
     const messagesListener = firestore()
       .collection('groupChats')
       .doc(groupId)
@@ -54,22 +52,7 @@ const Chat = ({route, navigation}) => {
           sendMessage={onSend}
         />
       )}
-      headerUnScrollable={() => (
-        <>
-          <View style={styles.header}>
-            <View style={{width: '15%'}}>
-              <Ionicons
-                name="arrow-back"
-                size={22}
-                color="black"
-                onPress={() => navigation.goBack()}
-              />
-            </View>
-            <Text style={{fontSize: 20, fontWeight: '600'}}>Chat</Text>
-          </View>
-          <UserCard />
-        </>
-      )}>
+      headerUnScrollable={() => <UserCard />}>
       <View style={styles.container}>
         <FlatList
           data={messagesData}
